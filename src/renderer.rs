@@ -237,7 +237,7 @@ impl Renderer {
         };
 
         let (physical_device, queue_family_index) =
-            select_physical_device(&instance, &surface, &device_extensions);
+            select_physical_device(instance, &surface, &device_extensions);
 
         let (device, mut queues) = Device::new(
             physical_device.clone(),
@@ -351,8 +351,8 @@ impl Renderer {
             window_resized,
             recreate_swapchain,
             window: window.clone(),
-            swapchain: swapchain,
-            previous_fence_i: previous_fence_i,
+            swapchain,
+            previous_fence_i,
             fences,
             queue,
             device,
@@ -360,8 +360,8 @@ impl Renderer {
             vertex_buffer,
             render_pass,
             viewport,
-            vs: vs,
-            fs: fs,
+            vs,
+            fs,
             command_buffer_allocator,
         }
     }
