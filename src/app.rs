@@ -6,7 +6,7 @@ use winit::{
     window::Window,
 };
 
-use crate::renderer::Renderer;
+use crate::{config::WINDOW_TITLE, renderer::Renderer};
 
 pub(crate) struct App {
     instance: Arc<Instance>,
@@ -25,10 +25,14 @@ impl App {
 impl ApplicationHandler for App {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
         if self.renderer.is_none() {
-            let window = event_loop
-                .create_window(Window::default_attributes())
-                .unwrap();
-            self.renderer = Some(Renderer::init(&self.instance, &Arc::new(window)));
+            self.renderer = Some(Renderer::init(
+                &self.instance,
+                &Arc::new(
+                    event_loop
+                        .create_window(Window::default_attributes().with_title(WINDOW_TITLE))
+                        .unwrap(),
+                ),
+            ));
         }
     }
 

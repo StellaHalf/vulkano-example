@@ -34,7 +34,37 @@ use vulkano::swapchain::{
     SwapchainPresentInfo, acquire_next_image,
 };
 
-use crate::shaders::{Vertex2, fs, vs};
+use crate::shader::{Vertex2, fs, vs};
+
+pub(crate) struct Renderer {
+    window_resized: bool,
+    recreate_swapchain: bool,
+    window: Arc<Window>,
+    swapchain: Arc<Swapchain>,
+    previous_fence_i: u32,
+    fences: Vec<
+        Option<
+            Arc<
+                FenceSignalFuture<
+                    PresentFuture<
+                        CommandBufferExecFuture<
+                            JoinFuture<Box<dyn GpuFuture>, SwapchainAcquireFuture>,
+                        >,
+                    >,
+                >,
+            >,
+        >,
+    >,
+    queue: Arc<Queue>,
+    device: Arc<Device>,
+    command_buffers: Vec<Arc<PrimaryAutoCommandBuffer>>,
+    vertex_buffer: Subbuffer<[Vertex2]>,
+    render_pass: Arc<RenderPass>,
+    viewport: Viewport,
+    vs: Arc<ShaderModule>,
+    fs: Arc<ShaderModule>,
+    command_buffer_allocator: Arc<StandardCommandBufferAllocator>,
+}
 
 pub fn select_physical_device(
     instance: &Arc<Instance>,
@@ -195,36 +225,6 @@ fn get_command_buffers(
             builder.build().unwrap()
         })
         .collect()
-}
-
-pub(crate) struct Renderer {
-    window_resized: bool,
-    recreate_swapchain: bool,
-    window: Arc<Window>,
-    swapchain: Arc<Swapchain>,
-    previous_fence_i: u32,
-    fences: Vec<
-        Option<
-            Arc<
-                FenceSignalFuture<
-                    PresentFuture<
-                        CommandBufferExecFuture<
-                            JoinFuture<Box<dyn GpuFuture>, SwapchainAcquireFuture>,
-                        >,
-                    >,
-                >,
-            >,
-        >,
-    >,
-    queue: Arc<Queue>,
-    device: Arc<Device>,
-    command_buffers: Vec<Arc<PrimaryAutoCommandBuffer>>,
-    vertex_buffer: Subbuffer<[Vertex2]>,
-    render_pass: Arc<RenderPass>,
-    viewport: Viewport,
-    vs: Arc<ShaderModule>,
-    fs: Arc<ShaderModule>,
-    command_buffer_allocator: Arc<StandardCommandBufferAllocator>,
 }
 
 impl Renderer {

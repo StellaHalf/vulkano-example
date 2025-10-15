@@ -8,9 +8,7 @@ pub(crate) struct Vertex2 {
 }
 
 pub(crate) mod vs {
-    use vulkano_shaders::shader;
-
-    shader! {
+    vulkano_shaders::shader! {
         ty: "vertex",
         src: r"
             #version 460
@@ -25,9 +23,7 @@ pub(crate) mod vs {
 }
 
 pub(crate) mod fs {
-    use vulkano_shaders::shader;
-
-    shader! {
+    vulkano_shaders::shader! {
         ty: "fragment",
         src: r"
             #version 460

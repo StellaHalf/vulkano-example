@@ -1423,15 +1423,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "void-age"
-version = "0.1.0"
-dependencies = [
- "vulkano",
- "vulkano-shaders",
- "winit",
-]
-
-[[package]]
 name = "vulkano"
 version = "0.35.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1461,6 +1452,15 @@ dependencies = [
  "vulkano-macros",
  "x11-dl",
  "x11rb",
+]
+
+[[package]]
+name = "vulkano-example"
+version = "0.1.0"
+dependencies = [
+ "vulkano",
+ "vulkano-shaders",
+ "winit",
 ]
 
 [[package]]

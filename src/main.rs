@@ -1,8 +1,9 @@
 use crate::window::launch;
 
 mod app;
+mod config;
 mod renderer;
-mod shaders;
+mod shader;
 mod window;
 
 fn main() {
